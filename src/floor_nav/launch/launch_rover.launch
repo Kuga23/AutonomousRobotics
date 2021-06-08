@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<launch>
+    <include file="$(find rover_driver_base)/launch/rover_odom.launch"/> 
+    <node name="task_server" pkg="floor_nav" type="task_server" output="screen" >
+        <!-- After install -->
+        <!-- <param name="lib_path" value="$(find floor_nav)/tasks"/> -->
+        <!-- While developing -->
+        <param name="lib_path" value="$(find floor_nav)/../../devel/share/floor_nav/tasks"/>
+        <param name="base_frame" value="/rover/ground"/>
+        <param name="reference_frame" value="world"/>
+	<param name="joystick_topic" value="/rover/twistCommand"/>
+        <param name="auto_topic" value="/rover/twistCommand"/>
+       	
+        <!--<param name="base_frame" value="body"/>
+        <param name="reference_frame" value="map"/>-->
+    </node>
+    <!-- For the rosControlKinect scene
+    <node name="viz_graph" pkg="floor_graph" type="viz_graph.py" output="screen">
+    </node>
+    -->
+    <node pkg="floor_nav" type="test_goto_pose_rover.py" name="test_goto_pose_rover" output="screen"/>
+
+
+
+</launch>

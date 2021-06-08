@@ -1,0 +1,23 @@
+<launch>
+
+
+  <node pkg="face_detect_base" type="rosfacedetect.py" name="face_detect" output="screen">
+      <remap from="/face_detect/image" to="/vrep/visionSensor"/>
+  </node>
+
+  <node respawn="true" pkg="joy"
+        type="joy_node" name="robot_joy" >
+    <param name="dev" type="string" value="/dev/input/js0" />
+    <param name="deadzone" value="0.4" />
+  </node>
+
+  <!-- Axes 0 and 1 corresponds to left analog(joystick) on our xbox joystick  -->
+  <!--  we could have used the rigth analog so axes are 3 and 4   -->
+  <param name="axis_angular" value="0" type="int"/>
+  <param name="axis_linear" value="1" type="int"/>
+  <param name="scale_linear" value="2" type="double"/>
+  <param name="scale_angular" value="2" type="double"/>
+  <node pkg="joyControlAR" type="joy_node.py" name="robot_teleop"/>
+
+
+</launch>

@@ -1,0 +1,33 @@
+<launch>
+
+    <!-- Instantiate your teleoperation node here -->
+   	  <!-- joy node and our joystick is on the input port file js0 and analog sensity set to 0.2.  -->
+  <node respawn="true" pkg="joy"
+        type="joy_node" name="robot_joy" >
+    <param name="dev" type="string" value="/dev/input/js0" />
+    <param name="deadzone" value="0.4" />
+  </node>
+
+  <!-- Axes 0 and 1 corresponds to left analog(joystick) on our xbox joystick  -->
+  <!--  we could have used the rigth analog so axes are 3 and 4   -->
+  <param name="axis_angular" value="0" type="int"/>
+  <param name="axis_linear" value="1" type="int"/>
+  <param name="scale_linear" value="2" type="double"/>
+  <param name="scale_angular" value="2" type="double"/>
+  <node pkg="joyControlAR" type="joy_node.py" name="robot_teleop">
+      <remap from="/vrep/twistCommand" to="/teleop/cmd_vel"/>
+ </node>
+
+
+
+
+  <node pkg="collision_avoidance_base" type="collision_avoidance_base" name="coll_avoid" output="screen">
+      launch-prefix="xterm -e gdb --args"
+      <param name="base_frame" value="bubbleRob" />
+      <param name="safety_diameter" value="0.2" />
+      <remap from="~scan" to="/vrep/hokuyo"/>
+      <remap from="~vel_input" to="/teleop/cmd_vel"/>
+      <remap from="~vel_output" to="/vrep/twistCommand"/> -->
+  </node>
+
+</launch>
